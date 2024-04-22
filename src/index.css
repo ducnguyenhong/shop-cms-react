@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-size: 14px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 400;
+}
