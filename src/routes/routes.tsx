@@ -29,7 +29,12 @@ const AppRoute = () => {
             <Route path=":id/edit" element={<CategoryCreate />} />
             {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
           </Route>
-
+          <Route path="news">
+            <Route path="" element={<CategoryList />} />
+            <Route path="create" element={<CategoryCreate />} />
+            <Route path=":id/edit" element={<CategoryCreate />} />
+            {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
+          </Route>
           <Route path="*" element={<NotFound404 />} />
         </Route>
       </Routes>
