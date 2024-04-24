@@ -7,6 +7,7 @@ import { CategoryCreate, CategoryList } from 'src/pages/category';
 import Dashboard from 'src/pages/dashboard';
 import Login from 'src/pages/login';
 import NewOrders from 'src/pages/new-order';
+import { NewsCreate, NewsList } from 'src/pages/news';
 
 const AppRoute = () => {
   return (
@@ -30,9 +31,9 @@ const AppRoute = () => {
             {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
           </Route>
           <Route path="news">
-            <Route path="" element={<CategoryList />} />
-            <Route path="create" element={<CategoryCreate />} />
-            <Route path=":id/edit" element={<CategoryCreate />} />
+            <Route path="" element={<NewsList />} />
+            <Route path="create" element={<NewsCreate />} />
+            <Route path=":id/edit" element={<NewsCreate />} />
             {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
           </Route>
           <Route path="*" element={<NotFound404 />} />

@@ -1,14 +1,14 @@
 import { memo } from 'react';
 import { TableAction } from 'src/components/table';
-import { useDeleteCategory } from 'src/services/category.service';
-import { Category } from 'src/types/category.type';
+import { useDeleteNews } from 'src/services/news.service';
+import { News } from 'src/types/news.type';
 
 interface ActionProps {
-  item: Category;
+  item: News;
 }
 
 const Action: React.FC<ActionProps> = ({ item }) => {
-  const { mutate: deleteMutate, isPending } = useDeleteCategory();
+  const { mutate: deleteMutate, isPending } = useDeleteNews();
 
   return <TableAction item={item} onConfirmDelete={(id) => deleteMutate({ id })} loadingConfirm={isPending} />;
 };

@@ -1,4 +1,4 @@
-import CategoryCreate from './category-create/category-create';
-import CategoryList from './category-list/category-list';
+import NewsCreate from './news-create/news-create';
+import NewsList from './news-list/news-list';
 
-export { CategoryCreate, CategoryList };
+export { NewsCreate, NewsList };

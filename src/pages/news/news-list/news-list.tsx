@@ -3,38 +3,46 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
 import { CreateButton, Pagination } from 'src/components/table';
-import { useQueryCategoryList } from 'src/services/category.service';
+import { useQueryNewsList } from 'src/services/news.service';
 import { TableStyle } from 'src/styles/table.style';
-import { Category } from 'src/types/category.type';
+import { News } from 'src/types/news.type';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import Action from './action';
 import TableFilter from './filter';
 
-const CategoryList: React.FC = () => {
-  const { data: dataQuery, isLoading, error } = useQueryCategoryList();
+const NewsList: React.FC = () => {
+  const { data: dataQuery, isLoading, error } = useQueryNewsList();
 
-  const columns: TableProps<Category>['columns'] = [
+  const columns: TableProps<News>['columns'] = [
     {
       title: 'STT',
       dataIndex: 'id',
-      render: (text, _, index) => <Link to={`/categories/${text}/detail`}>{index + 1}</Link>
+      render: (text, _, index) => <Link to={`/news/${text}/detail`}>{index + 1}</Link>
     },
     {
       title: 'Tiêu đề',
       dataIndex: 'title',
       render: (text, record) => (
-        <Link to={`/categories/${record.id}/detail`}>
+        <Link to={`/news/${record.id}/detail`}>
           <p className="font-semibold">{text}</p>
         </Link>
       )
     },
     {
-      title: 'Danh mục cha',
-      dataIndex: 'parentId'
+      title: 'Mô tả',
+      dataIndex: 'description'
     },
     {
-      title: 'Đường dẫn',
-      dataIndex: 'url'
+      title: 'Ảnh bìa',
+      dataIndex: 'thumbnail'
+    },
+    {
+      title: 'Người tạo',
+      dataIndex: 'createdBy'
+    },
+    {
+      title: 'Ngày tạo',
+      dataIndex: 'createdAt'
     },
     {
       title: 'Hành động',
@@ -52,11 +60,11 @@ const CategoryList: React.FC = () => {
   return (
     <TableStyle>
       <Helmet>
-        <title>Danh sách danh mục | {WEBSITE_NAME}</title>
+        <title>Danh sách tin tức | {WEBSITE_NAME}</title>
       </Helmet>
 
       <div className="flex justify-end mb-5">
-        <CreateButton route="/categories/create" />
+        <CreateButton route="/news/create" />
       </div>
       <TableFilter />
       <Table
@@ -74,4 +82,4 @@ const CategoryList: React.FC = () => {
   );
 };
 
-export default CategoryList;
+export default NewsList;

@@ -1,6 +1,7 @@
 export type FieldType = {
   title: string;
-  url: string;
+  description: string;
   parentId?: string;
   thumbnail?: string;
+  content: string;
 };
