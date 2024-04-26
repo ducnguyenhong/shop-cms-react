@@ -13,7 +13,7 @@ interface Props {
   labelInValue?: boolean;
   placeholder?: string;
   allowClear?: boolean;
-  initialValue?: any;
+  initialValue?: Record<string, unknown>;
 }
 
 const FormSelect: React.FC<Props> = (props) => {
@@ -33,7 +33,7 @@ const FormSelect: React.FC<Props> = (props) => {
   return (
     <Form.Item
       name={name}
-      label={label ? <p className="font-bold text-md">{label}</p> : undefined}
+      label={label ? <p className="font-semibold text-md">{label}</p> : undefined}
       rules={rules}
       labelCol={{ span: 24 }}
       className={className}

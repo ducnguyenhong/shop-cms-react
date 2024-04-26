@@ -7,6 +7,7 @@ import { CategoryCreate, CategoryList } from 'src/pages/category';
 import Dashboard from 'src/pages/dashboard';
 import Login from 'src/pages/login';
 import NewOrders from 'src/pages/new-order';
+import { UserCreate, UserList } from 'src/pages/user';
 
 const AppRoute = () => {
   return (
@@ -27,6 +28,13 @@ const AppRoute = () => {
             <Route path="" element={<CategoryList />} />
             <Route path="create" element={<CategoryCreate />} />
             <Route path=":id/edit" element={<CategoryCreate />} />
+            {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
+          </Route>
+
+          <Route path="users">
+            <Route path="" element={<UserList />} />
+            <Route path="create" element={<UserCreate />} />
+            <Route path=":id/edit" element={<UserCreate />} />
             {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
           </Route>
 

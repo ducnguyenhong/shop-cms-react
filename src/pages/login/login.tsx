@@ -2,7 +2,7 @@ import { Button, Form, Input } from 'antd';
 import { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { Navigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import ImgIntro from 'src/assets/login-intro.png';
 import Logo from 'src/assets/logo.png';
 import { useMutateLogin } from 'src/services/auth.service';
@@ -16,15 +16,13 @@ type FieldType = {
 
 const Login: React.FC = () => {
   const token = useRecoilValue(tokenState);
-  const setToken = useSetRecoilState(tokenState);
   const { mutate: loginMutate } = useMutateLogin();
 
   const onFinish = useCallback(
     (values: FieldType) => {
-      // loginMutate(values);
-      setToken('token');
+      loginMutate(values);
     },
-    [loginMutate, setToken]
+    [loginMutate]
   );
 
   if (token) {

@@ -32,7 +32,7 @@ export const menuItems: MenuProps['items'] = [
     getMenuItem('Sản phẩm', 'products', <FaProductHunt />),
     getMenuItem('Danh mục', 'categories', <BiSolidCategory />)
   ]),
-  getMenuItem('Danh sách khách hàng', 'customers', <FaUserFriends />),
+  getMenuItem('Danh sách người dùng', 'users', <FaUserFriends />),
   getMenuItem('Danh sách tin tức', 'news', <FaNewspaper />)
 ];
 
@@ -110,6 +110,7 @@ export const MENU_ROUTES: MenuRoute[] = [
     ],
     section: 'Danh sách sticker'
   },
+
   {
     key: 'categories',
     route: '/categories',
@@ -166,6 +167,64 @@ export const MENU_ROUTES: MenuRoute[] = [
     ],
     section: 'Chi tiết danh mục'
   },
+
+  {
+    key: 'users',
+    route: '/users',
+    breadcrumb: [
+      {
+        title: 'Người dùng',
+        route: '/users'
+      }
+    ],
+    section: 'Danh sách người dùng'
+  },
+  {
+    key: 'users/create',
+    route: '/users/create',
+    breadcrumb: [
+      {
+        title: 'Người dùng',
+        route: '/users'
+      },
+      {
+        title: 'Tạo người dùng',
+        route: '/users/create'
+      }
+    ],
+    section: 'Tạo người dùng'
+  },
+  {
+    key: 'users/:id/edit',
+    route: '/users/:id/edit',
+    breadcrumb: [
+      {
+        title: 'Người dùng',
+        route: '/users'
+      },
+      {
+        title: 'Cập nhật người dùng',
+        route: '/users/:id/edit'
+      }
+    ],
+    section: 'Cập nhật người dùng'
+  },
+  {
+    key: 'users/:id/detail',
+    route: '/users/:id/detail',
+    breadcrumb: [
+      {
+        title: 'Người dùng',
+        route: '/users'
+      },
+      {
+        title: 'Chi tiết người dùng',
+        route: '/users/:id/detail'
+      }
+    ],
+    section: 'Chi tiết người dùng'
+  },
+
   {
     key: 'news',
     route: '/news',
