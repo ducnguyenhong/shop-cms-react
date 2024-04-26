@@ -14,12 +14,12 @@ export const useMutateLogin = () => {
   return useMutation({
     mutationFn: (params: Record<string, unknown>) => {
       return API.request({
-        url: '/auth/login',
+        url: '/api/auth/login',
         method: 'POST',
         params: params
       })
         .then((res) => {
-          const token = res.accessToken;
+          const token = res.token;
           setToken(token);
           navigate('/');
         })
@@ -52,16 +52,16 @@ export const useQueryUserInfo = () => {
     queryKey,
     queryFn: () =>
       API.request({
-        url: '/user-info'
+        url: '/api/user'
       }).then((res) => {
-        if (res.role !== 'ADMIN') {
-          showToast({
-            type: 'error',
-            message: 'Bạn không có quyền đăng nhập hệ thống'
-          });
-          setToken(undefined);
-          return;
-        }
+        // if (res.role !== 'ADMIN') {
+        //   showToast({
+        //     type: 'error',
+        //     message: 'Bạn không có quyền đăng nhập hệ thống'
+        //   });
+        //   setToken(undefined);
+        //   return;
+        // }
 
         setUserInfo(res);
         return res as User;

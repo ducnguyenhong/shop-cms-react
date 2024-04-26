@@ -1,10 +1,16 @@
+import { useMutation } from '@tanstack/react-query';
 import { Form, Select } from 'antd';
 import { Rule } from 'antd/es/form';
 import { debounce, get, isEmpty, uniqBy } from 'lodash';
 import { memo, useCallback, useMemo, useState } from 'react';
+import { API } from 'src/utils/API';
 import { showToast } from 'src/utils/helper';
 
 interface Props {
+  request: {
+    url: string;
+    params?: Record<string, unknown>;
+  };
   name: string;
   label?: string;
   className?: string;
@@ -14,33 +20,29 @@ interface Props {
   placeholder?: string;
   allowClear?: boolean;
   loading?: boolean;
-  initialValue?: any;
+  initialValue?: Record<string, unknown>[];
   labelKey?: string;
   valueKey?: string;
-  query: {
-    data: any;
-    getData: any;
-  };
 }
 
-// const { mutateAsync: getData, data, isLoading } = useMutationGetFolders();
-
-// export const useMutationGetFolders = () => {
-//   return useMutation(payload =>
-//     API.request({
-//       url: '/admin/courses-v2/folders-filter',
-//       params: {
-//         page: 0,
-//         size: 100,
-//         ...payload
-//       }
-//     })
-//   );
-// };
+const useMutationGetData = (url: string) => {
+  return useMutation({
+    mutationFn: (params: Record<string, unknown>) => {
+      return API.request({
+        url,
+        params: {
+          page: 0,
+          size: 20,
+          ...params
+        }
+      });
+    }
+  });
+};
 
 const FormSelectQuery: React.FC<Props> = (props) => {
   const {
-    query,
+    request,
     placeholder,
     mode,
     labelInValue = true,
@@ -54,11 +56,12 @@ const FormSelectQuery: React.FC<Props> = (props) => {
     labelKey = 'title',
     valueKey = 'id'
   } = props;
-  const { getData, data } = query || {};
-  const { last } = data || {};
-  const [page, setPage] = useState(0);
-  const [options, setOptions] = useState<any>([]);
+  const { url, params = {} } = request;
+  const { mutateAsync: getData } = useMutationGetData(url);
+  const [page, setPage] = useState<number>(0);
+  const [options, setOptions] = useState<any[]>([]);
   const [keyword, setKeyword] = useState<string | undefined>();
+  const [isLastPage, setIsLastPage] = useState<boolean>(false);
 
   const finalOptions = useMemo(() => {
     const newOptions = options?.map((item: any) => ({
@@ -68,69 +71,84 @@ const FormSelectQuery: React.FC<Props> = (props) => {
     return uniqBy(newOptions, 'value');
   }, [labelKey, options, valueKey]);
 
-  const handleCatch = useCallback((e: any) => {
+  const handleCatch = useCallback((e: Error) => {
     setOptions([]);
-    showToast({ type: 'error', message: e.message });
+    showToast({ type: 'error', message: e?.message });
   }, []);
 
   const loadFirstPage = useCallback(() => {
     if (!isEmpty(options)) {
       return;
     }
-    getData({ page: 0 })
-      .then((res: any) => {
-        setOptions(res?.data);
+    getData({ ...params, page: 1 })
+      .then((res) => {
+        const { data = [], pagination } = res || {};
+        const { page, size, totalItems } = pagination || {};
+        setOptions(data);
+        setIsLastPage((page + 1) * size >= totalItems);
       })
-      .catch((e: any) => handleCatch(e));
-  }, [getData, handleCatch, options]);
+      .catch((e) => handleCatch(e));
+  }, [getData, handleCatch, options, params]);
 
-  const loadMorePage = useCallback(
+  const onLoadMore = useCallback(
     ({ target }: any) => {
-      if (last) {
+      if (isLastPage) {
         return;
       }
       if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
-        setPage((p) => p + 1);
-        getData({ page: page + 1, keyword })
-          .then((res: any) => setOptions([...options, ...res.data]))
-          .catch((e: any) => handleCatch(e));
+        setPage((prev) => prev + 1);
+        getData({ ...params, page: page + 1, keyword })
+          .then((res: any) => {
+            const { data = [], pagination } = res || {};
+            const { page, size, totalItems } = pagination || {};
+            setOptions([...options, ...data]);
+            setIsLastPage((page + 1) * size >= totalItems);
+          })
+          .catch((e) => handleCatch(e));
       }
     },
-    [last, getData, page, keyword, options, handleCatch]
+    [isLastPage, getData, params, page, keyword, options, handleCatch]
   );
 
   const onSearch = debounce((value) => {
     setPage(0);
     setKeyword(value);
     getData({ page: 0, keyword: value })
-      .then((res: any) => setOptions(res?.data || []))
-      .catch((e: any) => handleCatch(e));
+      .then((res) => {
+        const { data = [], pagination } = res || {};
+        const { page, size, totalItems } = pagination || {};
+        setOptions(data);
+        setIsLastPage((page + 1) * size >= totalItems);
+      })
+      .catch((e) => handleCatch(e));
   }, 500);
 
   const onBlur = useCallback(() => {
     setKeyword(undefined);
     setPage(0);
     setOptions([]);
+    setIsLastPage(false);
   }, []);
 
   return (
     <Form.Item
       name={name}
-      label={label ? <p className="font-bold text-md">{label}</p> : undefined}
+      label={label ? <p className="font-semibold text-md aaa">{label}</p> : undefined}
       rules={rules}
       labelCol={{ span: 24 }}
       initialValue={initialValue}
+      className={className}
     >
       <Select
         options={finalOptions}
-        style={{ width: '100%' }}
-        className={className}
+        style={{ width: '100%', height: 37 }}
         mode={mode}
         labelInValue={labelInValue}
         placeholder={placeholder || 'Chọn...'}
         loading={loading}
         onFocus={loadFirstPage}
-        onPopupScroll={loadMorePage}
+        onPopupScroll={onLoadMore}
+        showSearch
         onSearch={onSearch}
         onBlur={onBlur}
         filterOption={false}
