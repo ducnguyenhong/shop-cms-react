@@ -2,7 +2,7 @@ import { Table, TableProps } from 'antd';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
-import { CreateButton, Pagination } from 'src/components/table';
+import { CreateButton } from 'src/components/table';
 import { useQueryNewsList } from 'src/services/news.service';
 import { TableStyle } from 'src/styles/table.style';
 import { News } from 'src/types/news.type';
@@ -11,7 +11,7 @@ import Action from './action';
 import TableFilter from './filter';
 
 const NewsList: React.FC = () => {
-  const { data: dataQuery, isLoading, error } = useQueryNewsList();
+  const { data: dataQuery = [], isLoading, error } = useQueryNewsList();
 
   const columns: TableProps<News>['columns'] = [
     {
@@ -50,8 +50,8 @@ const NewsList: React.FC = () => {
     }
   ];
 
-  const { data, pagination } = dataQuery || {};
-  const { totalItems, page } = pagination || {};
+  // const { data, pagination } = dataQuery || {};
+  // const { totalItems, page } = pagination || {};
 
   if (error) {
     return <ErrorScreen message={error?.message} className="mt-20" />;
@@ -69,15 +69,15 @@ const NewsList: React.FC = () => {
       <TableFilter />
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={dataQuery}
         loading={isLoading}
         pagination={false}
         rowKey="id"
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
-      <div className="flex justify-end mt-10">
+      {/* <div className="flex justify-end mt-10">
         <Pagination defaultPage={page} totalItems={totalItems} />
-      </div>
+      </div> */}
     </TableStyle>
   );
 };

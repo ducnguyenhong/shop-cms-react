@@ -237,6 +237,21 @@ export const MENU_ROUTES: MenuRoute[] = [
     section: 'Danh sách tin tức'
   },
   {
+    key: 'news/create',
+    route: '/news/create',
+    breadcrumb: [
+      {
+        title: 'Tin tức',
+        route: '/news'
+      },
+      {
+        title: 'Tạo tin tức',
+        route: '/news/create'
+      }
+    ],
+    section: 'Tạo tin tức'
+  },
+  {
     key: 'feedbacks',
     route: '/feedbacks',
     breadcrumb: [
