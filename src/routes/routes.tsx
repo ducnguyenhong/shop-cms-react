@@ -8,6 +8,7 @@ import Dashboard from 'src/pages/dashboard';
 import Login from 'src/pages/login';
 import NewOrders from 'src/pages/new-order';
 import { NewsCreate, NewsList } from 'src/pages/news';
+import { ProductsCreate, ProductsList } from 'src/pages/products';
 import { UserCreate, UserList } from 'src/pages/user';
 
 const AppRoute = () => {
@@ -42,6 +43,12 @@ const AppRoute = () => {
             <Route path="" element={<UserList />} />
             <Route path="create" element={<UserCreate />} />
             <Route path=":id/edit" element={<UserCreate />} />
+            {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
+          </Route>
+          <Route path="products">
+            <Route path="" element={<ProductsList />} />
+            <Route path="create" element={<ProductsCreate />} />
+            <Route path=":id/edit" element={<ProductsCreate />} />
             {/* <Route path="detail/:id/*" element={<UserDetail />} /> */}
           </Route>
 

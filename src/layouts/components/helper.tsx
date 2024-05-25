@@ -251,6 +251,33 @@ export const MENU_ROUTES: MenuRoute[] = [
     ],
     section: 'Tạo tin tức'
   },
+  ///
+  {
+    key: 'producs',
+    route: '/products',
+    breadcrumb: [
+      {
+        title: 'Sản phẩm',
+        route: '/products'
+      }
+    ],
+    section: 'Danh sách sản phẩm'
+  },
+  {
+    key: 'products/create',
+    route: '/products/create',
+    breadcrumb: [
+      {
+        title: 'Sản phẩm',
+        route: '/products'
+      },
+      {
+        title: 'Tạo sản phẩm',
+        route: '/products/create'
+      }
+    ],
+    section: 'Tạo sản phẩm'
+  },
   {
     key: 'feedbacks',
     route: '/feedbacks',
