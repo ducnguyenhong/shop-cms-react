@@ -3,5 +3,6 @@ export type FieldType = {
   title: string;
   description: string;
   thumbnail?: string;
-  price: string;
+  price: number;
+  quantity: number;
 };

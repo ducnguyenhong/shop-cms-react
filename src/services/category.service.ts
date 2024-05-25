@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { Category } from 'src/types/category.type';
-import { Pagination } from 'src/types/common.type';
 import { API } from 'src/utils/API';
 import { showToast, useGetParamsURL } from 'src/utils/helper';
 
@@ -12,12 +11,12 @@ export const useQueryCategoryList = () => {
 
   const queryKey = ['GET_CATEGORY_LIST', page];
 
-  return useQuery<{ data: Category[]; pagination: Pagination }>({
+  return useQuery<Category[]>({
     queryKey,
     queryFn: () =>
       API.request({
-        url: '/categories',
-        params: { page }
+        url: '/api/category/get-all',
+        params: { pageSize: 10, pageNumber: page }
       })
   });
 };
@@ -28,7 +27,7 @@ export const useCreateCategory = () => {
   return useMutation({
     mutationFn: (params: Record<string, unknown>) => {
       return API.request({
-        url: '/categories',
+        url: '/api/category',
         method: 'POST',
         params
       })
@@ -50,12 +49,12 @@ export const useUpdateCategory = () => {
     mutationFn: (params: Record<string, unknown>) => {
       const { id } = params;
       return API.request({
-        url: `/categories/${id}`,
-        method: 'POST',
+        url: `/api/category/${id}`,
+        method: 'PATCH',
         params
       })
         .then(() => {
-          showToast({ type: 'success', message: 'Tạo danh mục thành công' });
+          showToast({ type: 'success', message: 'Cập nhật danh mục thành công' });
           navigate(-1);
         })
         .catch((e) => {
@@ -72,7 +71,7 @@ export const useDeleteCategory = () => {
     mutationFn: (params: Record<string, unknown>) => {
       const { id } = params;
       return API.request({
-        url: `/categories/${id}`,
+        url: `/api/category/${id}`,
         method: 'DELETE'
       })
         .then(() => {

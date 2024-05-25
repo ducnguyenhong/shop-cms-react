@@ -11,31 +11,14 @@ export const useQueryProductsList = () => {
   const { page } = paramsURL || {};
 
   const queryKey = ['GET_PRODUCTS_LIST', page];
-  return {
-    error: null as any,
-    isLoading: false,
-    data: [
-      {
-        id: 1,
-        title: 'Hoa Quả Sạch',
-        description: `Nho sữa Hàn Quốc là giống nho shine Muscat có xuất xứ từ Nhật Bản, đây được coi là một trong những loại nho ngon xuất sắc nhất trên thế giới, Nho sữa Hàn Quốc cùng với các loại dưa lê Hàn Quốc, Hồng dẻo Hàn Quốc, Lê Hàn Quốc là các loại hoa quả nhập khẩu cao cấp của Hàn Quốc tại thị trường Việt Nam
-
-        Nho sữa Hàn Quốc có mùi thơm đặc trưng, dù thưởng thức một lần cũng không bao giờ quên hương vị của nó, nho giàu giá trị dinh dưỡng, được dùng nhiều làm quà biếu, quà tặng sang trọng trong các dịp lễ tết, thăm hỏi. Hệ thống cửa hàng Trái cây Ngọc Châu cung cấp nho sữa Hàn Quốc tại Hà Nội vào khoảng thời gian từ tháng 7 đến tháng 12 hàng năm và đây cũng là mùa của nho sữa Hàn
-        
-        `,
-        thumbnail: 'okok',
-        price: 111
-      }
-    ]
-  };
-  // return useQuery<Product[]>({
-  //   queryKey,
-  //   queryFn: () =>
-  //     API.request({
-  //       url: '/api/admin/products',
-  //       params: { page_index: page }
-  //     })
-  // });
+  return useQuery({
+    queryKey,
+    queryFn: () =>
+      API.request({
+        url: '/api/product/search',
+        params: { pageSize: 10, pageNumber: page }
+      })
+  });
 };
 
 export const useCreateProducts = () => {

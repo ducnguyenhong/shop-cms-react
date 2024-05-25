@@ -36,7 +36,7 @@ const FormUpload: React.FC<Props> = (props) => {
     <Form.Item
       name={name}
       initialValue={initialValue}
-      label={label ? <p className="font-semibold text-md">{label}</p> : undefined}
+      label={label ? <p className="font-bold text-md">{label}</p> : undefined}
       rules={rules}
     >
       <Upload

@@ -1,9 +1,11 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, InputNumber } from 'antd';
 import { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { ButtonBack } from 'src/components/button';
 import { ErrorScreen, LoadingScreen } from 'src/components/effect-screen';
+import { FormSelectQuery } from 'src/components/form';
+import FormEditor from 'src/components/form/form-editor';
 import FormItemUpload from 'src/components/form/form-upload';
 import { useCreateProducts, useQueryProductsDetail } from 'src/services/products.service';
 import { WEBSITE_NAME } from 'src/utils/resource';
@@ -32,10 +34,10 @@ const ProductsCreate: React.FC = () => {
     return <ErrorScreen message={errorDetail?.message} className="mt-20" />;
   }
 
-  const { title, description, thumbnail, price } = productsDetail || {};
+  const { title, description, thumbnail, price, quantity } = productsDetail || {};
 
   return (
-    <div className="w-full md:w-[60%] lg:w-[50%] 2xl:w-[35%] mx-auto">
+    <div className="w-full md:w-[60%] lg:w-[50%] 2xl:w-[65%] mx-auto">
       <Helmet>
         <title>
           {id ? 'Tạo' : 'Cập nhật'} sản phẩm | {WEBSITE_NAME}
@@ -52,7 +54,7 @@ const ProductsCreate: React.FC = () => {
         className="mt-10"
       >
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Tên sản phẩm</p>}
+          label={<p className="font-bold text-md">Tên sản phẩm</p>}
           name="title"
           initialValue={title}
           rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm' }]}
@@ -60,24 +62,45 @@ const ProductsCreate: React.FC = () => {
           <Input className="py-2" />
         </Form.Item>
 
+        <FormSelectQuery
+          allowClear
+          mode="multiple"
+          rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
+          label="Danh mục"
+          labelKey="name"
+          valueKey="id"
+          name="categoryIds"
+          request={{
+            url: '/api/category/get-all'
+          }}
+        />
+
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Mô tả</p>}
-          name="description"
-          initialValue={description}
-          rules={[{ required: true, message: 'Vui lòng nhập mô tả' }]}
-        >
-          <Input className="py-2" />
-        </Form.Item>
-        <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Giá</p>}
+          label={<p className="font-bold text-md">Giá sản phẩm</p>}
           name="price"
-          initialValue={description}
+          initialValue={price}
           rules={[{ required: true, message: 'Vui lòng nhập giá' }]}
         >
-          <Input className="py-2" />
+          <InputNumber className="py-1 w-full" />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label={<p className="font-bold text-md">Số lượng trong kho</p>}
+          name="quantity"
+          initialValue={quantity}
+        >
+          <InputNumber className="py-1 w-full" />
         </Form.Item>
 
         <FormItemUpload name="thumbnail" label="Ảnh " />
+
+        <Form.Item
+          label={<p className="font-bold text-md">Mô tả sản phẩm</p>}
+          name="description"
+          initialValue={description}
+        >
+          <FormEditor defaultValue={description} />
+        </Form.Item>
 
         <div className="flex items-center gap-8 mt-20 justify-center">
           <div className="hidden md:block">

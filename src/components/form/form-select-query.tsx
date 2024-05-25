@@ -11,7 +11,7 @@ interface Props {
     url: string;
     params?: Record<string, unknown>;
   };
-  name: string;
+  name: string | number | (string | number)[];
   label?: string;
   className?: string;
   rules?: Rule[];
@@ -31,8 +31,8 @@ const useMutationGetData = (url: string) => {
       return API.request({
         url,
         params: {
-          page: 0,
-          size: 20,
+          pageSize: 100,
+          pageNumber: 0,
           ...params
         }
       });
@@ -54,7 +54,8 @@ const FormSelectQuery: React.FC<Props> = (props) => {
     rules,
     allowClear,
     labelKey = 'title',
-    valueKey = 'id'
+    valueKey = 'id',
+    ...rest
   } = props;
   const { url, params = {} } = request;
   const { mutateAsync: getData } = useMutationGetData(url);
@@ -62,6 +63,8 @@ const FormSelectQuery: React.FC<Props> = (props) => {
   const [options, setOptions] = useState<any[]>([]);
   const [keyword, setKeyword] = useState<string | undefined>();
   const [isLastPage, setIsLastPage] = useState<boolean>(false);
+
+  console.log('ducnh options', options);
 
   const finalOptions = useMemo(() => {
     const newOptions = options?.map((item: any) => ({
@@ -80,12 +83,10 @@ const FormSelectQuery: React.FC<Props> = (props) => {
     if (!isEmpty(options)) {
       return;
     }
-    getData({ ...params, page: 1 })
+    getData({ ...params, pageNumber: 1 })
       .then((res) => {
-        const { data = [], pagination } = res || {};
-        const { page, size, totalItems } = pagination || {};
-        setOptions(data);
-        setIsLastPage((page + 1) * size >= totalItems);
+        setOptions(res);
+        setIsLastPage(true);
       })
       .catch((e) => handleCatch(e));
   }, [getData, handleCatch, options, params]);
@@ -99,10 +100,8 @@ const FormSelectQuery: React.FC<Props> = (props) => {
         setPage((prev) => prev + 1);
         getData({ ...params, page: page + 1, keyword })
           .then((res: any) => {
-            const { data = [], pagination } = res || {};
-            const { page, size, totalItems } = pagination || {};
-            setOptions([...options, ...data]);
-            setIsLastPage((page + 1) * size >= totalItems);
+            setOptions([...options, ...res]);
+            setIsLastPage(true);
           })
           .catch((e) => handleCatch(e));
       }
@@ -115,10 +114,8 @@ const FormSelectQuery: React.FC<Props> = (props) => {
     setKeyword(value);
     getData({ page: 0, keyword: value })
       .then((res) => {
-        const { data = [], pagination } = res || {};
-        const { page, size, totalItems } = pagination || {};
-        setOptions(data);
-        setIsLastPage((page + 1) * size >= totalItems);
+        setOptions(res);
+        setIsLastPage(true);
       })
       .catch((e) => handleCatch(e));
   }, 500);
@@ -133,11 +130,12 @@ const FormSelectQuery: React.FC<Props> = (props) => {
   return (
     <Form.Item
       name={name}
-      label={label ? <p className="font-semibold text-md aaa">{label}</p> : undefined}
+      label={label ? <p className="font-bold text-md">{label}</p> : undefined}
       rules={rules}
       labelCol={{ span: 24 }}
       initialValue={initialValue}
       className={className}
+      {...rest}
     >
       <Select
         options={finalOptions}

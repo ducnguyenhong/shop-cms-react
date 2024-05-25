@@ -1,10 +1,9 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, InputNumber } from 'antd';
 import { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { ButtonBack } from 'src/components/button';
 import { ErrorScreen, LoadingScreen } from 'src/components/effect-screen';
-import FormItemUpload from 'src/components/form/form-upload';
 import { useCreateCategory, useQueryCategoryDetail, useUpdateCategory } from 'src/services/category.service';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import { FieldType } from './type';
@@ -17,9 +16,7 @@ const CategoryCreate: React.FC = () => {
 
   const onFinish = useCallback(
     (values: FieldType) => {
-      console.log('ducnh values', values);
-
-      // id ? updateMutate(values) : createMutate(values);
+      id ? updateMutate(values) : createMutate(values);
     },
     [createMutate, updateMutate, id]
   );
@@ -32,7 +29,7 @@ const CategoryCreate: React.FC = () => {
     return <ErrorScreen message={errorDetail?.message} className="mt-20" />;
   }
 
-  const { title, thumbnail, parentId, url } = categoryDetail || {};
+  const { name, priority } = categoryDetail || {};
 
   return (
     <div className="w-full md:w-[60%] lg:w-[50%] 2xl:w-[35%] mx-auto">
@@ -52,24 +49,22 @@ const CategoryCreate: React.FC = () => {
         className="mt-10"
       >
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Tiêu đề</p>}
-          name="title"
-          initialValue={title}
-          rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}
+          label={<p className="font-bold text-md">Tên danh mục</p>}
+          name="name"
+          initialValue={name}
+          rules={[{ required: true, message: 'Vui lòng nhập thông tin' }]}
         >
           <Input className="py-2" />
         </Form.Item>
 
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">URL</p>}
-          name="url"
-          initialValue={url}
-          rules={[{ required: true, message: 'Vui lòng nhập URL' }]}
+          label={<p className="font-bold text-md">Thứ tự hiển thị</p>}
+          name="priority"
+          className="w-full"
+          initialValue={priority}
         >
-          <Input className="py-2" />
+          <InputNumber className="w-full py-1" />
         </Form.Item>
-
-        <FormItemUpload name="thumbnail" label="Ảnh đại diện" />
 
         <div className="flex items-center gap-8 mt-20 justify-center">
           <div className="hidden md:block">

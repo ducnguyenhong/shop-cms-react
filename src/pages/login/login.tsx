@@ -53,7 +53,7 @@ const Login: React.FC = () => {
             className="w-full md:w-[400px] mt-10"
           >
             <Form.Item<FieldType>
-              label={<p className="font-semibold text-md">Tài khoản</p>}
+              label={<p className="font-bold text-md">Tài khoản</p>}
               name="username"
               rules={[{ required: true, message: 'Vui lòng nhập tài khoản' }]}
             >
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
             </Form.Item>
 
             <Form.Item<FieldType>
-              label={<p className="font-semibold text-md">Mật khẩu</p>}
+              label={<p className="font-bold text-md">Mật khẩu</p>}
               name="password"
               rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
             >

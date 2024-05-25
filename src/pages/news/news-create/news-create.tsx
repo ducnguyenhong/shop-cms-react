@@ -53,7 +53,7 @@ const NewsCreate: React.FC = () => {
         className="mt-10"
       >
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Tiêu đề</p>}
+          label={<p className="font-bold text-md">Tiêu đề</p>}
           name="title"
           initialValue={title}
           rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}
@@ -62,7 +62,7 @@ const NewsCreate: React.FC = () => {
         </Form.Item>
 
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Mô tả</p>}
+          label={<p className="font-bold text-md">Mô tả</p>}
           name="description"
           initialValue={description}
           rules={[{ required: true, message: 'Vui lòng nhập mô tả' }]}
@@ -70,7 +70,7 @@ const NewsCreate: React.FC = () => {
           <Input className="py-2" />
         </Form.Item>
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md"> Nội dung</p>}
+          label={<p className="font-bold text-md"> Nội dung</p>}
           name="content"
           initialValue={content}
           rules={[{ required: true, message: 'Vui lòng nhập nội dung' }]}

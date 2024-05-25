@@ -2,7 +2,7 @@ import { Table, TableProps } from 'antd';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
-import { CreateButton } from 'src/components/table';
+import { CreateButton, Pagination } from 'src/components/table';
 import { useQueryProductsList } from 'src/services/products.service';
 import { TableStyle } from 'src/styles/table.style';
 import { Product } from 'src/types/products.type';
@@ -46,7 +46,7 @@ const ProductsList: React.FC = () => {
     }
   ];
 
-  // const { data, pagination } = dataQuery || {};
+  const { content = [] } = dataQuery || {};
   // const { totalItems, page } = pagination || {};
 
   if (error) {
@@ -65,15 +65,15 @@ const ProductsList: React.FC = () => {
       <TableFilter />
       <Table
         columns={columns}
-        dataSource={dataQuery}
+        dataSource={content}
         loading={isLoading}
         pagination={false}
         rowKey="id"
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
-      {/* <div className="flex justify-end mt-10">
-        <Pagination defaultPage={page} totalItems={totalItems} />
-      </div> */}
+      <div className="flex justify-end mt-10">
+        <Pagination defaultPage={1} totalItems={100} />
+      </div>
     </TableStyle>
   );
 };

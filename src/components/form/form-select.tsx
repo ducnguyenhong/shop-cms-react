@@ -4,7 +4,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { memo } from 'react';
 
 interface Props {
-  name: string;
+  name: string | number | (string | number)[];
   options: DefaultOptionType[];
   label?: string;
   className?: string;
@@ -27,19 +27,22 @@ const FormSelect: React.FC<Props> = (props) => {
     mode,
     labelInValue = true,
     placeholder,
-    allowClear
+    allowClear,
+    ...rest
   } = props;
 
   return (
     <Form.Item
       name={name}
-      label={label ? <p className="font-semibold text-md">{label}</p> : undefined}
+      label={label ? <p className="font-bold text-md">{label}</p> : undefined}
       rules={rules}
       labelCol={{ span: 24 }}
       className={className}
       initialValue={initialValue}
+      {...rest}
     >
       <Select
+        className="h-[38px]"
         options={options}
         style={{ width: '100%' }}
         mode={mode}

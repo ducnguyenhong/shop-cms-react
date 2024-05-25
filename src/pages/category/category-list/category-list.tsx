@@ -11,7 +11,7 @@ import Action from './action';
 import TableFilter from './filter';
 
 const CategoryList: React.FC = () => {
-  const { data: dataQuery, isLoading, error } = useQueryCategoryList();
+  const { data, isLoading, error } = useQueryCategoryList();
 
   const columns: TableProps<Category>['columns'] = [
     {
@@ -20,8 +20,8 @@ const CategoryList: React.FC = () => {
       render: (text, _, index) => <Link to={`/categories/${text}/detail`}>{index + 1}</Link>
     },
     {
-      title: 'Tiêu đề',
-      dataIndex: 'title',
+      title: 'Tên danh mục',
+      dataIndex: 'name',
       render: (text, record) => (
         <Link to={`/categories/${record.id}/detail`}>
           <p className="font-semibold">{text}</p>
@@ -29,21 +29,14 @@ const CategoryList: React.FC = () => {
       )
     },
     {
-      title: 'Danh mục cha',
-      dataIndex: 'parentId'
-    },
-    {
-      title: 'Đường dẫn',
-      dataIndex: 'url'
+      title: 'Thứ tự hiển thị',
+      dataIndex: 'priority'
     },
     {
       title: 'Hành động',
       render: (_, record) => <Action item={record} />
     }
   ];
-
-  const { data, pagination } = dataQuery || {};
-  const { totalItems, page } = pagination || {};
 
   if (error) {
     return <ErrorScreen message={error?.message} className="mt-20" />;
@@ -68,7 +61,7 @@ const CategoryList: React.FC = () => {
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
       <div className="flex justify-end mt-10">
-        <Pagination defaultPage={page} totalItems={totalItems} />
+        <Pagination defaultPage={1} totalItems={100} />
       </div>
     </TableStyle>
   );

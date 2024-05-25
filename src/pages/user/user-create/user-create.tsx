@@ -71,7 +71,7 @@ const UserCreate: React.FC = () => {
         className="mt-10"
       >
         <Form.Item<FieldType>
-          label={<p className="font-semibold text-md">Tiêu đề</p>}
+          label={<p className="font-bold text-md">Tiêu đề</p>}
           name="title"
           // initialValue={title}
           rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}
