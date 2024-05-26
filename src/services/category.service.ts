@@ -47,11 +47,11 @@ export const useUpdateCategory = () => {
 
   return useMutation({
     mutationFn: (params: Record<string, unknown>) => {
-      const { id } = params;
+      const { id, name, priority } = params;
       return API.request({
         url: `/api/category/${id}`,
         method: 'PATCH',
-        params
+        params: { name, priority }
       })
         .then(() => {
           showToast({ type: 'success', message: 'Cập nhật danh mục thành công' });
@@ -94,8 +94,8 @@ export const useQueryCategoryDetail = (id?: string) => {
     queryKey,
     queryFn: () =>
       API.request({
-        url: `/categories/${id}`
-      }).then((res) => res.data),
+        url: `/api/category/${id}`
+      }),
     enabled: !!id
   });
 

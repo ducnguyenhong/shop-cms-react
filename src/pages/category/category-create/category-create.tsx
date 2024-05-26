@@ -16,7 +16,7 @@ const CategoryCreate: React.FC = () => {
 
   const onFinish = useCallback(
     (values: FieldType) => {
-      id ? updateMutate(values) : createMutate(values);
+      id ? updateMutate({ ...values, id }) : createMutate(values);
     },
     [createMutate, updateMutate, id]
   );

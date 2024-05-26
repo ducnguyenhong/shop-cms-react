@@ -16,7 +16,7 @@ export const useQueryUserList = () => {
     queryFn: () =>
       API.request({
         url: '/api/admin/users',
-        params: { page_index: page }
+        params: { pageSize: 10, pageNumber: page }
       })
   });
 };

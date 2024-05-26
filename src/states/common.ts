@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { DefaultValue, atom, selector } from 'recoil';
 import { User } from 'src/types/user.type';
 
-export const CK_JWT_TOKEN = 'yume-admin-token';
+export const CK_JWT_TOKEN = 'token';
 
 const tokenAtom = atom<string | undefined>({
   key: 'TOKEN_ATOM',
