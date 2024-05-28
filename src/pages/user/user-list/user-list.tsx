@@ -1,7 +1,6 @@
 import { Table, TableProps } from 'antd';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
-import { CreateButton } from 'src/components/table';
 import { useQueryUserList } from 'src/services/user.service';
 import { TableStyle } from 'src/styles/table.style';
 import { User } from 'src/types/user.type';
@@ -66,9 +65,9 @@ const UserList: React.FC = () => {
 
   return (
     <TableStyle>
-      <div className="flex justify-end mb-5">
+      {/* <div className="flex justify-end mb-5">
         <CreateButton route="/users/create" />
-      </div>
+      </div> */}
       <TableFilter />
       <Table
         columns={columns}

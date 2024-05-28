@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { Product } from 'src/types/products.type';
-import { User } from 'src/types/user.type';
 import { API } from 'src/utils/API';
 import { showToast, useGetParamsURL } from 'src/utils/helper';
 
@@ -27,12 +26,12 @@ export const useCreateProducts = () => {
   return useMutation({
     mutationFn: (params: Record<string, unknown>) => {
       return API.request({
-        url: '/api/admin/products',
+        url: '/api/product',
         method: 'POST',
         params
       })
         .then(() => {
-          showToast({ type: 'success', message: 'Tạo products thành công' });
+          showToast({ type: 'success', message: 'Tạo sản phẩm thành công' });
           navigate(-1);
         })
         .catch((e) => {
@@ -48,12 +47,12 @@ export const useUpdateProducts = (id: string | undefined) => {
   return useMutation({
     mutationFn: (params: Record<string, unknown>) => {
       return API.request({
-        url: `/admin/products/${id}`,
+        url: `/api/product/${id}`,
         method: 'PATCH',
         params
       })
         .then(() => {
-          showToast({ type: 'success', message: 'Tạo products thành công' });
+          showToast({ type: 'success', message: 'Tạo sản phẩm thành công' });
           queryClient.resetQueries({ queryKey: ['GET_PRODUCTS_LIST'] });
           navigate(-1);
         })
@@ -89,12 +88,12 @@ export const useQueryProductsDetail = (id?: string) => {
   const queryClient = useQueryClient();
   const dataClient: Product | any = queryClient.getQueryData(queryKey);
 
-  const { data, isLoading, error } = useQuery<User>({
+  const { data, isLoading, error } = useQuery<Product>({
     queryKey,
     queryFn: () =>
       API.request({
-        url: `/admin/products/${id}`
-      }).then((res) => res.data),
+        url: `/api/product/get-by-id/${id}`
+      }),
     enabled: !!id
   });
 

@@ -8,33 +8,44 @@ interface TableActionProps {
   item: { id: string };
   onConfirmDelete?: (id: string) => void;
   loadingConfirm?: boolean;
+  route: string;
+  disableView?: boolean;
+  disableDelete?: boolean;
+  disableEdit?: boolean;
 }
 
-const TableAction: React.FC<TableActionProps> = ({ item, onConfirmDelete, loadingConfirm }) => {
+const TableAction: React.FC<TableActionProps> = (props) => {
+  const { item, onConfirmDelete, loadingConfirm, route, disableDelete, disableView, disableEdit } = props;
   const { id } = item || {};
   const [showDelete, setShowDelete] = useState<boolean>(false);
 
   return (
     <div className="flex items-center gap-4">
-      <Link to={`/categories/${id}/detail`} type="primary">
-        <div className="w-10 h-9 rounded-md flex items-center justify-center bg-[#009dff] hover:bg-[#008ee6] duration-200">
-          <FaEye color="#FFF" />
-        </div>
-      </Link>
+      {!disableView && (
+        <Link to={`/${route}/${id}/detail`} type="primary">
+          <div className="w-10 h-9 rounded-md flex items-center justify-center bg-[#009dff] hover:bg-[#008ee6] duration-200">
+            <FaEye color="#FFF" />
+          </div>
+        </Link>
+      )}
 
-      <Link to={`/categories/${id}/edit`} type="primary">
-        <div className="w-10 h-9 rounded-md flex items-center justify-center bg-[#009dff] hover:bg-[#008ee6] duration-200">
-          <FaPencilAlt size={13} color="#FFF" />
-        </div>
-      </Link>
+      {!disableEdit && (
+        <Link to={`/${route}/${id}/edit`} type="primary">
+          <div className="w-10 h-9 rounded-md flex items-center justify-center bg-[#009dff] hover:bg-[#008ee6] duration-200">
+            <FaPencilAlt size={13} color="#FFF" />
+          </div>
+        </Link>
+      )}
 
-      <button
-        onClick={() => setShowDelete(true)}
-        type="button"
-        className="w-10 h-9 rounded-md flex items-center justify-center bg-[#009dff] hover:bg-[#008ee6] duration-200"
-      >
-        <FaTrashAlt color="#FFF" size={13} />
-      </button>
+      {!disableDelete && (
+        <button
+          onClick={() => setShowDelete(true)}
+          type="button"
+          className="w-10 h-9 rounded-md flex items-center justify-center bg-[#009dff] hover:bg-[#008ee6] duration-200"
+        >
+          <FaTrashAlt color="#FFF" size={13} />
+        </button>
+      )}
 
       <Modal
         title="Xác nhận xoá"

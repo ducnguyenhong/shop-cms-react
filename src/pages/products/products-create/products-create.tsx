@@ -7,21 +7,37 @@ import { ErrorScreen, LoadingScreen } from 'src/components/effect-screen';
 import { FormSelectQuery } from 'src/components/form';
 import FormEditor from 'src/components/form/form-editor';
 import FormItemUpload from 'src/components/form/form-upload';
-import { useCreateProducts, useQueryProductsDetail } from 'src/services/products.service';
+import { useCreateProducts, useQueryProductsDetail, useUpdateProducts } from 'src/services/products.service';
+import { convertFileToBase64 } from 'src/utils/helper';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import { FieldType } from './type';
 
 const ProductsCreate: React.FC = () => {
   const { id } = useParams();
   const { isPending: loadingCreate, mutate: createMutate } = useCreateProducts();
-  const { isPending: loadingUpdate, mutate: updateMutate } = useCreateProducts();
+  const { isPending: loadingUpdate, mutate: updateMutate } = useUpdateProducts(id);
   const { isLoading: loadingDetail, data: productsDetail, error: errorDetail } = useQueryProductsDetail(id);
 
   const onFinish = useCallback(
-    (values: FieldType) => {
-      console.log('ducnh values', values);
+    async (values: FieldType) => {
+      const { title, price, quantity, categoryIds, description, thumbnail } = values || {};
+      const fileList = thumbnail?.fileList || [];
 
-      // id ? updateMutate(values) : createMutate(values);
+      Promise.all(
+        fileList.map(async (item: any) => {
+          return await convertFileToBase64(item?.originFileObj);
+        })
+      ).then((imagesUrl) => {
+        const data = {
+          title,
+          price,
+          quantity,
+          categoryIds: categoryIds?.map((i: any) => i.value),
+          description,
+          imagesUrl
+        };
+        id ? updateMutate(data) : createMutate(data);
+      });
     },
     [createMutate, updateMutate, id]
   );
@@ -76,12 +92,12 @@ const ProductsCreate: React.FC = () => {
         />
 
         <Form.Item<FieldType>
-          label={<p className="font-bold text-md">Giá sản phẩm</p>}
+          label={<p className="font-bold text-md">Giá sản phẩm (VND)</p>}
           name="price"
           initialValue={price}
           rules={[{ required: true, message: 'Vui lòng nhập giá' }]}
         >
-          <InputNumber className="py-1 w-full" />
+          <InputNumber type="number" className="py-1 w-full" />
         </Form.Item>
 
         <Form.Item<FieldType>
@@ -89,10 +105,12 @@ const ProductsCreate: React.FC = () => {
           name="quantity"
           initialValue={quantity}
         >
-          <InputNumber className="py-1 w-full" />
+          <InputNumber type="number" className="py-1 w-full" />
         </Form.Item>
 
-        <FormItemUpload name="thumbnail" label="Ảnh " />
+        <div className="w-60">
+          <FormItemUpload name="thumbnail" label="Ảnh " />
+        </div>
 
         <Form.Item
           label={<p className="font-bold text-md">Mô tả sản phẩm</p>}

@@ -1,4 +1,4 @@
-import { Table, TableProps } from 'antd';
+import { Image, Table, TableProps } from 'antd';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
@@ -6,6 +6,7 @@ import { CreateButton, Pagination } from 'src/components/table';
 import { useQueryProductsList } from 'src/services/products.service';
 import { TableStyle } from 'src/styles/table.style';
 import { Product } from 'src/types/products.type';
+import { formatCurrency } from 'src/utils/helper';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import Action from './action';
 import TableFilter from './filter';
@@ -29,16 +30,31 @@ const ProductsList: React.FC = () => {
       )
     },
     {
-      title: 'Mô tả',
-      dataIndex: 'description'
-    },
-    {
-      title: 'Ảnh bìa',
-      dataIndex: 'thumbnail'
+      title: 'Ảnh sản phẩm',
+      dataIndex: 'imagesUrl',
+      render: (images) => {
+        if (Array.isArray(images)) {
+          return (
+            <div className="flex gap-2 flex-wrap">
+              {images.slice(0, 4).map((i, idx) => (
+                <div key={idx} className="w-16 h-10">
+                  <Image src={i} style={{ objectFit: 'cover' }} />
+                </div>
+              ))}
+            </div>
+          );
+        }
+        return null;
+      }
     },
     {
       title: 'Giá sản phẩm',
-      dataIndex: 'price'
+      dataIndex: 'price',
+      render: (price) => formatCurrency(price)
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity'
     },
     {
       title: 'Hành động',

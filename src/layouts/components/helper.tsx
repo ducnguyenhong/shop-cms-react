@@ -1,7 +1,7 @@
 import { MenuProps } from 'antd';
 import { BiSolidCategory } from 'react-icons/bi';
-import { FaRegMoneyBillAlt, FaUserFriends } from 'react-icons/fa';
-import { FaMoneyBill, FaNewspaper, FaPalette, FaProductHunt } from 'react-icons/fa6';
+import { FaUserFriends } from 'react-icons/fa';
+import { FaMoneyBill, FaPalette, FaProductHunt } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -24,16 +24,11 @@ const getMenuItem = (
 
 export const menuItems: MenuProps['items'] = [
   getMenuItem('Bảng điều khiển', 'dashboard', <FaPalette />),
-  getMenuItem('Đơn hàng', 'order-list', <FaMoneyBill />, [
-    getMenuItem('Đơn hàng mới', 'new-orders', <FaMoneyBill />),
-    getMenuItem('Đơn hàng hoàn thành', 'completed-orders', <FaRegMoneyBillAlt />)
-  ]),
-  getMenuItem('Quản lý sản phẩm', 'product-list', <FaProductHunt />, [
-    getMenuItem('Sản phẩm', 'products', <FaProductHunt />),
-    getMenuItem('Danh mục', 'categories', <BiSolidCategory />)
-  ]),
-  getMenuItem('Danh sách người dùng', 'users', <FaUserFriends />),
-  getMenuItem('Danh sách tin tức', 'news', <FaNewspaper />)
+  getMenuItem('Đơn hàng', 'orders', <FaMoneyBill />),
+  getMenuItem('Sản phẩm', 'products', <FaProductHunt />),
+  getMenuItem('Danh mục', 'categories', <BiSolidCategory />),
+  getMenuItem('Người dùng', 'users', <FaUserFriends />)
+  // getMenuItem('Danh sách tin tức', 'news', <FaNewspaper />)
 ];
 
 interface MenuRoute {
@@ -56,15 +51,15 @@ export const MENU_ROUTES: MenuRoute[] = [
     section: 'Bảng điều khiển'
   },
   {
-    key: 'new-orders',
-    route: '/new-orders',
+    key: 'orders',
+    route: '/orders',
     breadcrumb: [
       {
-        title: 'Đơn hàng mới',
-        route: '/new-orders'
+        title: 'Đơn hàng',
+        route: '/orders'
       }
     ],
-    section: 'Đơn hàng mới'
+    section: 'Đơn hàng'
   },
   {
     key: 'completed-orders',
@@ -87,6 +82,21 @@ export const MENU_ROUTES: MenuRoute[] = [
       }
     ],
     section: 'Danh sách sản phẩm'
+  },
+  {
+    key: 'products/:id/edit',
+    route: '/products/:id/edit',
+    breadcrumb: [
+      {
+        title: 'Sản phẩm',
+        route: '/products'
+      },
+      {
+        title: 'Cập nhật sản phẩm',
+        route: '/products/:id/edit'
+      }
+    ],
+    section: 'Cập nhật sản phẩm'
   },
   {
     key: 'backgrounds',
