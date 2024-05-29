@@ -6,8 +6,8 @@ import NotFound404 from 'src/pages/404';
 import { CategoryCreate, CategoryList } from 'src/pages/category';
 import Dashboard from 'src/pages/dashboard';
 import Login from 'src/pages/login';
-import NewOrders from 'src/pages/new-order';
 import { NewsCreate, NewsList } from 'src/pages/news';
+import { AllOrder } from 'src/pages/order';
 import { ProductsCreate, ProductsList } from 'src/pages/products';
 import { UserCreate, UserList } from 'src/pages/user';
 
@@ -19,8 +19,8 @@ const AppRoute = () => {
         <Route element={<MainLayout />}>
           <Route index element={<Dashboard />} />
 
-          <Route path="new-orders">
-            <Route path="" element={<NewOrders />} />
+          <Route path="orders">
+            <Route path="" element={<AllOrder />} />
             {/* <Route path="create" element={<UserCreate />} />
             <Route path="edit/:id" element={<UserCreate />} />
             <Route path="detail/:id/*" element={<UserDetail />} /> */}

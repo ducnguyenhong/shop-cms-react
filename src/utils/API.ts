@@ -24,7 +24,7 @@ export const API = {
       },
       data: method !== 'GET' ? params : undefined,
       params: method === 'GET' ? params : undefined,
-      timeout: 20000,
+      timeout: 60000,
       timeoutErrorMessage: 'Hệ thống không phản hồi. Vui lòng thử lại sau!'
     };
 

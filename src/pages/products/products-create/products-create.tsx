@@ -50,7 +50,7 @@ const ProductsCreate: React.FC = () => {
     return <ErrorScreen message={errorDetail?.message} className="mt-20" />;
   }
 
-  const { title, description, thumbnail, price, quantity } = productsDetail || {};
+  const { title, description, imagesUrl, price, quantity } = productsDetail || {};
 
   return (
     <div className="w-full md:w-[60%] lg:w-[50%] 2xl:w-[65%] mx-auto">
