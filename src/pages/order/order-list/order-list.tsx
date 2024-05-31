@@ -2,7 +2,6 @@ import { Table, TableProps } from 'antd';
 import dayjs from 'dayjs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
 import ImgAvatar from 'src/assets/user-avatar.png';
 import { ErrorScreen } from 'src/components/effect-screen';
 import { Pagination } from 'src/components/table';
@@ -19,28 +18,24 @@ const OrderList: React.FC = () => {
     {
       title: 'STT',
       dataIndex: 'id',
-      render: (text, _, index) => <Link to={`/orders/${text}/detail`}>{index + 1}</Link>
+      render: (text) => <p className="font-semibold">{text}</p>
     },
     {
       title: 'Khách hàng',
-      dataIndex: 'customerInfo',
-      render: (customerInfo, record) => (
+      dataIndex: 'receiverFullName',
+      render: (_, record) => (
         <div>
           <div className="flex gap-3">
-            <Link to={`/users/${record.id}/detail`}>
-              <img src={ImgAvatar} className="w-12 h-12" />
-            </Link>
+            <img src={ImgAvatar} className="w-12 h-12" />
             <div className="flex flex-col flex-1">
-              <Link to={`/users/${record.id}/detail`}>
-                <p className="font-bold uppercase">{customerInfo?.fullName}</p>
-              </Link>
+              <p className="font-bold uppercase">{record?.receiverFullName}</p>
               <div className="flex items-center gap-2">
                 <FaPhone size={13} color="#828282" />
-                <p>{customerInfo?.phone}</p>
+                <p>{record?.phoneNumber}</p>
               </div>
               <div className="flex items-center gap-2">
                 <FaMapMarkerAlt size={13} color="#828282" />
-                <p>{customerInfo?.address}</p>
+                <p>{record?.addressDetail}</p>
               </div>
             </div>
           </div>
@@ -49,25 +44,27 @@ const OrderList: React.FC = () => {
     },
     {
       title: 'Sản phẩm',
-      dataIndex: 'productList',
+      dataIndex: 'orders',
       render: (productList) => {
         if (!Array.isArray(productList) || !productList.length) {
           return null;
         }
         return (
-          <div>
+          <div className="flex flex-col gap-6">
             {productList.map((item: any) => {
-              const { productId, quantity, finalImage } = item;
+              const { quantity, product } = item || {};
+              const { imagesUrl, title, price } = product || {};
+
               return (
                 <div className="flex gap-3">
-                  <img src={finalImage} className="w-16 h-12 object-cover" />
+                  <img src={imagesUrl?.[0]} className="w-16 h-12 object-cover" />
                   <div className="flex flex-col flex-1 -mt-1">
-                    <p className="font-bold">{productId}</p>
+                    <p className="font-bold">{title}</p>
                     <p>
                       Số lượng: <span className="font-semibold">{quantity}</span>
                     </p>
                     <p>
-                      Thành tiền: <span className="font-semibold">{formatCurrency(100000)}</span>
+                      Đơn giá: <span className="font-semibold">{formatCurrency(price)}</span>
                     </p>
                   </div>
                 </div>
@@ -79,20 +76,11 @@ const OrderList: React.FC = () => {
     },
     {
       title: 'Tổng tiền',
-      dataIndex: 'paymentMethod',
-      render: (paymentMethod) => {
-        let method = '';
-        if (paymentMethod === 'BANK') {
-          method = 'Thanh toán chuyển khoản';
-        }
-        if (paymentMethod === 'COD') {
-          method = 'Thanh toán Ship COD';
-        }
-
+      dataIndex: 'price',
+      render: (price) => {
         return (
           <div>
-            <p className="font-bold text-blue-600 text-lg">{formatCurrency(100000)}</p>
-            <p className="font-medium">{method}</p>
+            <p className="font-bold text-blue-600 text-lg">{formatCurrency(price)}</p>
           </div>
         );
       }

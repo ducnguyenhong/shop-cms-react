@@ -7,7 +7,7 @@ const Dashboard: React.FC = () => {
       <Helmet>
         <title>Bảng điều khiển | {WEBSITE_NAME}</title>
       </Helmet>
-      <div>a</div>
+      <div></div>
     </div>
   );
 };
