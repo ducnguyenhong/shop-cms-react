@@ -18,8 +18,7 @@ const NewsCreate: React.FC = () => {
 
   const onFinish = useCallback(
     (values: FieldType) => {
-      console.log('ducnh values', values);
-
+      // console.log('ducnh values', values);
       // id ? updateMutate(values) : createMutate(values);
     },
     [createMutate, updateMutate, id]

@@ -28,7 +28,6 @@ const FormUpload: React.FC<Props> = (props) => {
       showToast({ type: 'error', message: 'Kích cỡ file không được vượt quá 5 MB!' });
       return;
     }
-    console.log('hoan', file);
     setFileList(fileList);
   }, []);
 

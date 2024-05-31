@@ -64,8 +64,6 @@ const FormSelectQuery: React.FC<Props> = (props) => {
   const [keyword, setKeyword] = useState<string | undefined>();
   const [isLastPage, setIsLastPage] = useState<boolean>(false);
 
-  console.log('ducnh options', options);
-
   const finalOptions = useMemo(() => {
     const newOptions = options?.map((item: any) => ({
       label: get(item, labelKey),
