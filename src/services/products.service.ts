@@ -69,7 +69,7 @@ export const useDeleteProducts = () => {
     mutationFn: (params: Record<string, unknown>) => {
       const { id } = params;
       return API.request({
-        url: `/admin/products/${id}`,
+        url: `/api/product/${id}`,
         method: 'DELETE'
       })
         .then(() => {

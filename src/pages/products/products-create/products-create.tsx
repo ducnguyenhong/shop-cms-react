@@ -8,7 +8,7 @@ import { FormSelectQuery } from 'src/components/form';
 import FormEditor from 'src/components/form/form-editor';
 import FormItemUpload from 'src/components/form/form-upload';
 import { useCreateProducts, useQueryProductsDetail, useUpdateProducts } from 'src/services/products.service';
-import { convertFileToBase64 } from 'src/utils/helper';
+import { API } from 'src/utils/API';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import { FieldType } from './type';
 
@@ -25,7 +25,14 @@ const ProductsCreate: React.FC = () => {
 
       Promise.all(
         fileList.map(async (item: any) => {
-          return await convertFileToBase64(item?.originFileObj);
+          const formData: any = new FormData();
+          formData.append('file', item?.originFileObj);
+          return await API.request({
+            url: '/api/product/upload',
+            method: 'POST',
+            params: formData,
+            isUpload: true
+          });
         })
       ).then((imagesUrl) => {
         const data = {

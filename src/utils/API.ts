@@ -8,17 +8,18 @@ interface RequestConfig {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   params?: Record<string, unknown>;
   headers?: Record<string, unknown>;
+  isUpload?: boolean;
 }
 
 export const API = {
   request: (config: RequestConfig) => {
-    const { baseUrl = import.meta.env.VITE_API_DOMAIN, method = 'GET', url, params, headers } = config;
+    const { baseUrl = import.meta.env.VITE_API_DOMAIN, method = 'GET', url, params, headers, isUpload } = config;
     const token = Cookies.get(CK_JWT_TOKEN);
     const requestConfig: AxiosRequestConfig = {
       url: `${baseUrl}${url}`,
       method,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': isUpload ? 'multipart/form-data' : 'application/json',
         Authorization: token ? `Bearer ${token}` : undefined,
         ...headers
       },
