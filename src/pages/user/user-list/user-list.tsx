@@ -1,6 +1,7 @@
 import { Table, TableProps } from 'antd';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
+import { Pagination } from 'src/components/table';
 import { useQueryUserList } from 'src/services/user.service';
 import { TableStyle } from 'src/styles/table.style';
 import { User } from 'src/types/user.type';
@@ -8,7 +9,7 @@ import Action from './action';
 import TableFilter from './filter';
 
 const UserList: React.FC = () => {
-  const { data: dataQuery = [], isLoading, error } = useQueryUserList();
+  const { data: dataQuery = {}, isLoading, error } = useQueryUserList();
 
   const columns: TableProps<User>['columns'] = [
     {
@@ -56,7 +57,7 @@ const UserList: React.FC = () => {
     }
   ];
 
-  // const { pagination } = dataQuery || {};
+  const { content = [] } = dataQuery || {};
   // const { totalItems, page } = pagination || {};
 
   if (error) {
@@ -71,15 +72,15 @@ const UserList: React.FC = () => {
       <TableFilter />
       <Table
         columns={columns}
-        dataSource={dataQuery}
+        dataSource={content}
         loading={isLoading}
         pagination={false}
         rowKey="id"
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
-      {/* <div className="flex justify-end mt-10">
-        <Pagination defaultPage={page} totalItems={totalItems} />
-      </div> */}
+      <div className="flex justify-end mt-10">
+        <Pagination defaultPage={1} totalItems={100} />
+      </div>
     </TableStyle>
   );
 };

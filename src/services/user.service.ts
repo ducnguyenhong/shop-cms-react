@@ -11,7 +11,7 @@ export const useQueryUserList = () => {
 
   const queryKey = ['GET_USER_LIST', page];
 
-  return useQuery<User[]>({
+  return useQuery<any>({
     queryKey,
     queryFn: () =>
       API.request({
