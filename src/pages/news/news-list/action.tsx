@@ -10,7 +10,9 @@ interface ActionProps {
 const Action: React.FC<ActionProps> = ({ item }) => {
   const { mutate: deleteMutate, isPending } = useDeleteNews();
 
-  return <TableAction item={item} onConfirmDelete={(id) => deleteMutate({ id })} loadingConfirm={isPending} />;
+  return (
+    <TableAction route="news" item={item} onConfirmDelete={(id) => deleteMutate({ id })} loadingConfirm={isPending} />
+  );
 };
 
 export default memo(Action);
