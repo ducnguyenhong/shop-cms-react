@@ -1,7 +1,9 @@
 import { Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userInfoAtom } from 'src/states/common';
 import styled from 'styled-components';
-import { MENU_ROUTES, menuItems } from './components/helper';
+import { MENU_ROUTES, menuItemsAdmin, menuItemsSuperAdmin } from './components/helper';
 
 interface Props {
   onMenuItemClick?: () => void;
@@ -9,6 +11,8 @@ interface Props {
 
 const MenuLayout: React.FC<Props> = ({ onMenuItemClick }) => {
   const navigate = useNavigate();
+  const userInfo = useRecoilValue(userInfoAtom);
+  const userRoles: string[] = userInfo?.authorities?.map((i) => i.role) || [];
 
   return (
     <MenuStyle>
@@ -17,7 +21,7 @@ const MenuLayout: React.FC<Props> = ({ onMenuItemClick }) => {
         defaultSelectedKeys={['dashboard']}
         defaultOpenKeys={['order-list', 'product-list']}
         mode="inline"
-        items={menuItems}
+        items={userRoles?.includes('ROLE_SUPER_ADMIN') ? menuItemsSuperAdmin : menuItemsAdmin}
         theme="dark"
         onClick={(e) => {
           onMenuItemClick && onMenuItemClick();

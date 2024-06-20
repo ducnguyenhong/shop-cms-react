@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { Button, Popover } from 'antd';
 import { memo, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -8,6 +9,7 @@ const UserButton: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
   const setToken = useSetRecoilState(tokenState);
+  const queryClient = useQueryClient();
 
   const { fullName } = userInfo || {};
 
@@ -24,6 +26,7 @@ const UserButton: React.FC = () => {
           onClick={() => {
             setUserInfo(undefined);
             setToken(undefined);
+            queryClient.removeQueries({ queryKey: ['GET_USER_INFO'] });
           }}
         >
           Đăng xuất

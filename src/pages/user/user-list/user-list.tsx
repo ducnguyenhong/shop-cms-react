@@ -1,4 +1,4 @@
-import { Table, TableProps } from 'antd';
+import { Table, TableProps, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
 import { Pagination } from 'src/components/table';
@@ -50,6 +50,12 @@ const UserList: React.FC = () => {
             {authorities.map((item) => (
               <p>{item.role}</p>
             ))}
+
+            {!record?.active && (
+              <Tag className="mt-1" color="red">
+                Banned
+              </Tag>
+            )}
           </div>
         );
       }

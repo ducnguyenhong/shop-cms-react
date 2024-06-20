@@ -65,13 +65,15 @@ const Action: React.FC<ActionProps> = ({ item }) => {
         </div>
       </Modal>
 
-      <button
-        onClick={() => setShowBan(true)}
-        type="button"
-        className="w-10 h-9 rounded-md flex items-center justify-center bg-red-500 hover:bg-red-600 duration-200"
-      >
-        <FaTriangleExclamation color="#FFF" size={13} />
-      </button>
+      {!!item?.active && (
+        <button
+          onClick={() => setShowBan(true)}
+          type="button"
+          className="w-10 h-9 rounded-md flex items-center justify-center bg-red-500 hover:bg-red-600 duration-200"
+        >
+          <FaTriangleExclamation color="#FFF" size={13} />
+        </button>
+      )}
 
       <Modal
         title="Bann người dùng"

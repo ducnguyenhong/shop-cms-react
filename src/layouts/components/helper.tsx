@@ -22,12 +22,21 @@ const getMenuItem = (
   } as MenuItem;
 };
 
-export const menuItems: MenuProps['items'] = [
+export const menuItemsSuperAdmin: MenuProps['items'] = [
   getMenuItem('Bảng điều khiển', 'dashboard', <FaPalette />),
   getMenuItem('Đơn hàng', 'orders', <FaMoneyBill />),
   getMenuItem('Sản phẩm', 'products', <FaProductHunt />),
   getMenuItem('Danh mục', 'categories', <BiSolidCategory />),
   getMenuItem('Người dùng', 'users', <FaUserFriends />)
+  // getMenuItem('Danh sách tin tức', 'news', <FaNewspaper />)
+];
+
+export const menuItemsAdmin: MenuProps['items'] = [
+  getMenuItem('Bảng điều khiển', 'dashboard', <FaPalette />),
+  getMenuItem('Đơn hàng', 'orders', <FaMoneyBill />),
+  getMenuItem('Sản phẩm', 'products', <FaProductHunt />),
+  getMenuItem('Danh mục', 'categories', <BiSolidCategory />)
+  // getMenuItem('Người dùng', 'users', <FaUserFriends />)
   // getMenuItem('Danh sách tin tức', 'news', <FaNewspaper />)
 ];
 
