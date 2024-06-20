@@ -6,12 +6,15 @@ import { CreateButton, Pagination } from 'src/components/table';
 import { useQueryCategoryList } from 'src/services/category.service';
 import { TableStyle } from 'src/styles/table.style';
 import { Category } from 'src/types/category.type';
+import { useGetParamsURL } from 'src/utils/helper';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import Action from './action';
 import TableFilter from './filter';
 
 const CategoryList: React.FC = () => {
   const { data, isLoading, error } = useQueryCategoryList();
+  const paramsURL = useGetParamsURL();
+  const { page = 1 } = paramsURL || {};
 
   const columns: TableProps<Category>['columns'] = [
     {
@@ -61,7 +64,7 @@ const CategoryList: React.FC = () => {
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
       <div className="flex justify-end mt-10">
-        <Pagination defaultPage={1} totalItems={100} />
+        <Pagination defaultPage={Number(page)} totalItems={30} />
       </div>
     </TableStyle>
   );

@@ -5,11 +5,14 @@ import { Pagination } from 'src/components/table';
 import { useQueryUserList } from 'src/services/user.service';
 import { TableStyle } from 'src/styles/table.style';
 import { User } from 'src/types/user.type';
+import { useGetParamsURL } from 'src/utils/helper';
 import Action from './action';
 import TableFilter from './filter';
 
 const UserList: React.FC = () => {
   const { data: dataQuery = {}, isLoading, error } = useQueryUserList();
+  const paramsURL = useGetParamsURL();
+  const { page = 1 } = paramsURL || {};
 
   const columns: TableProps<User>['columns'] = [
     {
@@ -79,7 +82,7 @@ const UserList: React.FC = () => {
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
       <div className="flex justify-end mt-10">
-        <Pagination defaultPage={1} totalItems={100} />
+        <Pagination defaultPage={Number(page)} totalItems={100} />
       </div>
     </TableStyle>
   );

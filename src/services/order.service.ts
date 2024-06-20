@@ -4,7 +4,7 @@ import { showToast, useGetParamsURL } from 'src/utils/helper';
 
 export const useQueryOrderList = () => {
   const paramsURL = useGetParamsURL();
-  const { page } = paramsURL || {};
+  const { page = 1 } = paramsURL || {};
 
   const queryKey = ['GET_ORDER_LIST', page];
   return useQuery({
@@ -12,7 +12,7 @@ export const useQueryOrderList = () => {
     queryFn: () =>
       API.request({
         url: '/api/product/order/admin-search',
-        params: { pageSize: 10, pageNumber: page }
+        params: { pageSize: 10, pageNumber: Number(page) - 1 }
       }).then((res) => res?.content || [])
   });
 };

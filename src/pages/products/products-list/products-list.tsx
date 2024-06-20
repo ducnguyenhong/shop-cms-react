@@ -6,13 +6,15 @@ import { CreateButton, Pagination } from 'src/components/table';
 import { useQueryProductsList } from 'src/services/products.service';
 import { TableStyle } from 'src/styles/table.style';
 import { Product } from 'src/types/products.type';
-import { formatCurrency } from 'src/utils/helper';
+import { formatCurrency, useGetParamsURL } from 'src/utils/helper';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import Action from './action';
 import TableFilter from './filter';
 
 const ProductsList: React.FC = () => {
   const { data: dataQuery = [], isLoading, error } = useQueryProductsList();
+  const paramsURL = useGetParamsURL();
+  const { page = 1 } = paramsURL || {};
 
   const columns: TableProps<Product>['columns'] = [
     {
@@ -88,7 +90,7 @@ const ProductsList: React.FC = () => {
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
       <div className="flex justify-end mt-10">
-        <Pagination defaultPage={1} totalItems={100} />
+        <Pagination defaultPage={Number(page)} totalItems={100} />
       </div>
     </TableStyle>
   );

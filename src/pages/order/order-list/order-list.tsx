@@ -7,12 +7,14 @@ import { ErrorScreen } from 'src/components/effect-screen';
 import { Pagination } from 'src/components/table';
 import { useQueryOrderList } from 'src/services/order.service';
 import { TableStyle } from 'src/styles/table.style';
-import { formatCurrency } from 'src/utils/helper';
+import { formatCurrency, useGetParamsURL } from 'src/utils/helper';
 import Action from './action';
 import TableFilter from './filter';
 
 const OrderList: React.FC = () => {
   const { data = [], isLoading, error } = useQueryOrderList();
+  const paramsURL = useGetParamsURL();
+  const { page = 1 } = paramsURL || {};
 
   const columns: TableProps<any>['columns'] = [
     {
@@ -129,7 +131,7 @@ const OrderList: React.FC = () => {
         scroll={{ x: 1500, scrollToFirstRowOnChange: true }}
       />
       <div className="flex justify-end mt-10">
-        <Pagination defaultPage={1} totalItems={100} />
+        <Pagination defaultPage={Number(page)} totalItems={100} />
       </div>
     </TableStyle>
   );
