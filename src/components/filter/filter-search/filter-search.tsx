@@ -2,7 +2,7 @@ import { Input } from 'antd';
 import { memo } from 'react';
 import { useParamsURL } from 'src/utils/helper';
 
-const FilterSearch: React.FC = () => {
+const FilterSearch: React.FC<{ placeholder?: string }> = ({ placeholder = 'Nhập từ khóa...' }) => {
   const { paramsURL, setParamsURL } = useParamsURL();
   const { keyword } = paramsURL || {};
 
@@ -12,7 +12,7 @@ const FilterSearch: React.FC = () => {
       <Input
         className="h-10"
         allowClear
-        placeholder="Nhập từ khóa..."
+        placeholder={placeholder}
         defaultValue={keyword ? `${keyword}` : undefined}
         onChange={(e) => setParamsURL({ keyword: e.target.value?.trim() })}
       />

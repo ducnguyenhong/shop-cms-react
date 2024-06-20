@@ -9,7 +9,6 @@ import { Category } from 'src/types/category.type';
 import { useGetParamsURL } from 'src/utils/helper';
 import { WEBSITE_NAME } from 'src/utils/resource';
 import Action from './action';
-import TableFilter from './filter';
 
 const CategoryList: React.FC = () => {
   const { data, isLoading, error } = useQueryCategoryList();
@@ -54,7 +53,7 @@ const CategoryList: React.FC = () => {
       <div className="flex justify-end mb-5">
         <CreateButton route="/categories/create" />
       </div>
-      <TableFilter />
+      {/* <TableFilter /> */}
       <Table
         columns={columns}
         dataSource={data}

@@ -7,16 +7,16 @@ import { showToast, useGetParamsURL } from 'src/utils/helper';
 
 export const useQueryUserList = () => {
   const paramsURL = useGetParamsURL();
-  const { page = 1 } = paramsURL || {};
+  const { page = 1, keyword } = paramsURL || {};
 
-  const queryKey = ['GET_USER_LIST', page];
+  const queryKey = ['GET_USER_LIST', page, keyword];
 
   return useQuery<any>({
     queryKey,
     queryFn: () =>
       API.request({
         url: '/api/admin/users',
-        params: { pageSize: 10, pageNumber: Number(page) - 1 }
+        params: { pageSize: 10, pageNumber: Number(page) - 1, keyword }
       })
   });
 };

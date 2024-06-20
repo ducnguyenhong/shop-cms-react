@@ -7,15 +7,15 @@ import { showToast, useGetParamsURL } from 'src/utils/helper';
 
 export const useQueryProductsList = () => {
   const paramsURL = useGetParamsURL();
-  const { page = 1 } = paramsURL || {};
+  const { page = 1, keyword } = paramsURL || {};
 
-  const queryKey = ['GET_PRODUCTS_LIST', page];
+  const queryKey = ['GET_PRODUCTS_LIST', page, keyword];
   return useQuery({
     queryKey,
     queryFn: () =>
       API.request({
         url: '/api/product/search',
-        params: { pageSize: 10, pageNumber: Number(page) - 1 }
+        params: { pageSize: 10, pageNumber: Number(page) - 1, title: keyword }
       })
   });
 };

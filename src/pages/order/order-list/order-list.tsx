@@ -1,6 +1,6 @@
 import { Table, TableProps } from 'antd';
 import dayjs from 'dayjs';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
 import ImgAvatar from 'src/assets/user-avatar.png';
 import { ErrorScreen } from 'src/components/effect-screen';
@@ -34,6 +34,10 @@ const OrderList: React.FC = () => {
               <div className="flex items-center gap-2">
                 <FaPhone size={13} color="#828282" />
                 <p>{record?.phoneNumber}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaEnvelope size={13} color="#828282" />
+                <p>{record?.email}</p>
               </div>
               <div className="flex items-center gap-2">
                 <FaMapMarkerAlt size={13} color="#828282" />
