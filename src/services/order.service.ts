@@ -12,7 +12,7 @@ export const useQueryOrderList = () => {
     queryFn: () =>
       API.request({
         url: '/api/product/order/admin-search',
-        params: { pageSize: 10, pageNumber: Number(page) - 1 }
+        params: { pageSize: 10, pageNumber: Number(page) - 1, type: 'BUY' }
       }).then((res) => res?.content || [])
   });
 };
