@@ -81,6 +81,10 @@ const OrderList: React.FC = () => {
       }
     },
     {
+      title: 'Ghi chú',
+      dataIndex: 'note'
+    },
+    {
       title: 'Tổng tiền',
       dataIndex: 'price',
       render: (price) => {
@@ -104,11 +108,11 @@ const OrderList: React.FC = () => {
     },
     {
       title: 'Ngày đặt hàng',
-      dataIndex: 'createdAt',
-      render: (createdAt) => {
+      dataIndex: 'createdDate',
+      render: (createdDate) => {
         return (
           <div>
-            <p className="font-semibold">{dayjs(createdAt).format('DD/MM/YYYY HH:mm')}</p>
+            <p className="font-semibold">{dayjs(createdDate).format('DD/MM/YYYY HH:mm')}</p>
           </div>
         );
       }

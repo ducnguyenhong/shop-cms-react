@@ -12,6 +12,7 @@ const Action: React.FC<ActionProps> = ({ item }) => {
 
   return (
     <TableAction
+      disableView
       route="categories"
       item={item}
       onConfirmDelete={(id) => deleteMutate({ id })}
