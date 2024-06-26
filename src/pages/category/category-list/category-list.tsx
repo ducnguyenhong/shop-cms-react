@@ -1,6 +1,5 @@
 import { Table, TableProps } from 'antd';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
 import { CreateButton, Pagination } from 'src/components/table';
 import { useQueryCategoryList } from 'src/services/category.service';
@@ -19,16 +18,12 @@ const CategoryList: React.FC = () => {
     {
       title: 'STT',
       dataIndex: 'id',
-      render: (text, _, index) => <Link to={`/categories/${text}/detail`}>{index + 1}</Link>
+      render: (text, _, index) => <p>{index + 1}</p>
     },
     {
       title: 'Tên danh mục',
       dataIndex: 'name',
-      render: (text, record) => (
-        <Link to={`/categories/${record.id}/detail`}>
-          <p className="font-semibold">{text}</p>
-        </Link>
-      )
+      render: (text, record) => <p className="font-semibold">{text}</p>
     },
     {
       title: 'Thứ tự hiển thị',

@@ -1,6 +1,5 @@
 import { Image, Table, TableProps } from 'antd';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { ErrorScreen } from 'src/components/effect-screen';
 import { CreateButton, Pagination } from 'src/components/table';
 import { useQueryProductsList } from 'src/services/products.service';
@@ -20,16 +19,12 @@ const ProductsList: React.FC = () => {
     {
       title: 'STT',
       dataIndex: 'id',
-      render: (text, _, index) => <Link to={`/products/${text}/detail`}>{index + 1}</Link>
+      render: (text, _, index) => <p>{index + 1}</p>
     },
     {
       title: 'Tên sản phẩm',
       dataIndex: 'title',
-      render: (text, record) => (
-        <Link to={`/products/${record.id}/detail`}>
-          <p className="font-semibold">{text}</p>
-        </Link>
-      )
+      render: (text, record) => <p className="font-semibold">{text}</p>
     },
     {
       title: 'Ảnh sản phẩm',
