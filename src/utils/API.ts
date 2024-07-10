@@ -34,7 +34,8 @@ export const API = {
         return response.data;
       })
       .catch((e) => {
-        return Promise.reject(e?.response?.data || e);
+        const error = e?.response?.data ? { message: e?.response?.data?.description } : e;
+        return Promise.reject(error);
       });
   }
 };
