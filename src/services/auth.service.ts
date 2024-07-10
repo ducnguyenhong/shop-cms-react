@@ -45,8 +45,7 @@ export const useQueryUserInfo = () => {
       }).then((res) => {
         const userRoles: string[] = res?.authorities?.map((i: any) => i.role) || [];
 
-        if (!userRoles?.includes('ADMIN')) {
-          // bao gồm ROLE_SUPER_ADMIN và ROLE_ADMIN
+        if (!userRoles?.includes('ROLE_SUPER_ADMIN') && !userRoles?.includes('ROLE_ADMIN')) {
           showToast({
             type: 'error',
             message: 'Bạn không có quyền đăng nhập hệ thống'
