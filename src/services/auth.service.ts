@@ -30,17 +30,6 @@ export const useMutateLogin = () => {
   });
 };
 
-export const useMutateLogout = () => {
-  return useMutation({
-    mutationFn: () => {
-      return API.request({
-        url: '/auth/logout',
-        method: 'POST'
-      });
-    }
-  });
-};
-
 export const useQueryUserInfo = () => {
   const queryKey = ['GET_USER_INFO'];
   const queryClient = useQueryClient();
@@ -54,14 +43,17 @@ export const useQueryUserInfo = () => {
       API.request({
         url: '/api/user'
       }).then((res) => {
-        // if (res.role !== 'ADMIN') {
-        //   showToast({
-        //     type: 'error',
-        //     message: 'Bạn không có quyền đăng nhập hệ thống'
-        //   });
-        //   setToken(undefined);
-        //   return;
-        // }
+        const userRoles: string[] = res?.authorities?.map((i: any) => i.role) || [];
+
+        if (!userRoles?.includes('ADMIN')) {
+          // bao gồm ROLE_SUPER_ADMIN và ROLE_ADMIN
+          showToast({
+            type: 'error',
+            message: 'Bạn không có quyền đăng nhập hệ thống'
+          });
+          setToken(undefined);
+          return;
+        }
 
         setUserInfo(res);
         return res as User;
